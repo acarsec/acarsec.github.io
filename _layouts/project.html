@@ -1,0 +1,169 @@
+---
+layout: default
+---
+<main class="project-main">
+
+  <div class="project-subnav">
+    <a href="{{ '/' | relative_url }}#projects" class="subnav-back">
+      <span class="arrow-left">&#8592;</span>
+      <span>&gt; cd /projects</span>
+    </a>
+    <div class="subnav-viewing muted">
+      &gt; viewing: <span class="primary">{{ page.project_name }}</span>
+    </div>
+  </div>
+
+  <div class="project-header fade-up">
+    <div class="project-meta-row">
+      <span class="project-idx">project_{{ page.project_index | prepend: '00' | slice: -2, 2 }}</span>
+      <span class="project-type-tag">[{{ page.project_type }}]</span>
+      <span class="pc-status-{{ page.status | downcase | replace: '_', '-' }}">{{ page.status }}</span>
+      <span class="pc-sev-{{ page.severity | downcase }}">{{ page.severity }}</span>
+    </div>
+    <h1 class="project-h1">{{ page.project_name }}</h1>
+    <p class="project-short-desc">{{ page.short_description }}</p>
+    <div class="tags">
+      {% for tag in page.tags %}
+      <a href="{{ '/tags/' | relative_url }}#{{ tag | slugify }}" class="tag tag-index">{{ tag }}</a>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="desc-card fade-up delay-1">
+    {{ page.long_description }}
+  </div>
+
+  {% if page.repo_url %}
+  <div class="repo-block fade-up delay-2">
+    <div class="section-label"><span class="muted">$</span> git remote -v</div>
+    <a href="{{ page.repo_url }}" target="_blank" rel="noopener noreferrer" class="repo-link">
+      <svg class="repo-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+      <div class="repo-info">
+        <div class="repo-comment muted">// public source</div>
+        <div class="repo-label">{{ page.repo_label | default: page.repo_url }}</div>
+      </div>
+      <span class="repo-clone">&gt; git clone &#8594;</span>
+    </a>
+  </div>
+  {% endif %}
+
+  <div class="two-col fade-up delay-2">
+    <div class="methodology-col">
+      <h2 class="col-heading"><span class="muted">&#9658;</span> &gt;_ &gt; methodology</h2>
+      <ul class="methodology-list">
+        {% for step in page.methodology %}
+        <li>
+          <span class="step-num primary">[{{ forloop.index | prepend: '0' | slice: -2, 2 }}]</span>
+          <span class="step-text">{{ step }}</span>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <div class="right-col">
+      <div class="info-card">
+        <h2 class="col-heading"><span class="zap">&#9889;</span> &gt; impact_assessment</h2>
+        <p class="muted">{{ page.impact }}</p>
+      </div>
+
+      <div class="info-card">
+        <h2 class="col-heading"><span class="cal">&#128197;</span> &gt; timeline</h2>
+        <div class="timeline-row">
+          <span class="muted">discovered:</span>
+          <span class="primary">{{ page.discovered }}</span>
+        </div>
+        {% if page.cve_id %}
+        <div class="timeline-row">
+          <span class="muted">cve_id:</span>
+          <span class="destructive">{{ page.cve_id }}</span>
+        </div>
+        {% endif %}
+        <div class="timeline-row">
+          <span class="muted">last_updated:</span>
+          <span class="primary">{{ page.last_updated }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="evidence-section fade-up delay-3">
+    <h2 class="section-label"><span class="muted">&#128247;</span> &gt; evidence_screenshots</h2>
+    <div class="evidence-grid">
+      {% for i in (1..3) %}
+      <div class="evidence-placeholder">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+        <span class="muted">img_0{{ i }}.png</span>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="tech-stack fade-up delay-3">
+    <h2 class="section-label"><span class="muted">$</span> ./tech_stack</h2>
+    <div class="tag-row">
+      {% for tag in page.tags %}
+      <span class="tech-tag">[{{ tag }}]</span>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="git-log fade-up delay-4">
+    <h2 class="section-label"><span class="muted">$</span> git log --oneline</h2>
+    <div class="commit-list">
+      {% for commit in page.commits %}
+      <div class="commit-row">
+        <span class="commit-hash">{{ commit.hash }}</span>
+        <span class="commit-msg">{{ commit.message }}</span>
+        <span class="commit-rel muted">{{ commit.rel }}</span>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="prev-next">
+    {% assign all_projects = site.projects | sort: "project_index" %}
+    {% assign total = all_projects | size %}
+    {% assign current_idx = 0 %}
+    {% for p in all_projects %}
+      {% if p.slug == page.slug %}
+        {% assign current_idx = forloop.index0 %}
+      {% endif %}
+    {% endfor %}
+    {% if current_idx == 0 %}
+      {% assign prev_idx = total | minus: 1 %}
+    {% else %}
+      {% assign prev_idx = current_idx | minus: 1 %}
+    {% endif %}
+    {% assign next_idx = current_idx | plus: 1 %}
+    {% if next_idx >= total %}{% assign next_idx = 0 %}{% endif %}
+    {% assign prev_project = all_projects[prev_idx] %}
+    {% assign next_project = all_projects[next_idx] %}
+    <a href="{{ prev_project.url | relative_url }}" class="prev-link">&#8592; previous_project</a>
+    <a href="{{ next_project.url | relative_url }}" class="next-link">next_project &#8594;</a>
+  </div>
+
+</main>
+
+<script>
+  (function() {
+    // Typewriter for cat line
+    var target = document.getElementById('cat-line');
+    if (!target) return;
+    var full = '> cat {{ page.slug }}.';
+    target.textContent = '';
+    var i = 0;
+    function type() {
+      if (i < full.length) {
+        target.textContent += full[i++];
+        setTimeout(type, 40);
+      } else {
+        target.innerHTML += '<span class="cursor">&#9608;</span>';
+      }
+    }
+    setTimeout(type, 300);
+
+    // Update header path
+    var pathEl = document.getElementById('current-path');
+    if (pathEl) pathEl.textContent = ' ~/projects/{{ page.slug }}';
+  })();
+</script>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% include seo.html %}
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}" />
+</head>
+<body>
+  <canvas id="matrix-canvas"></canvas>
+  <div class="scanlines"></div>
+  <div class="vignette"></div>
+
+  <header id="site-header">
+    <div class="header-inner">
+      <div class="header-path">
+        <a href="/"><span class="muted">[user@acarsec]</span></a>
+        <span class="primary" id="current-path"> ~/</span>
+        <span class="muted"> $</span>
+      </div>
+      <nav class="header-nav">
+        <a href="{{ '/' | relative_url }}#about">about</a>
+        <a href="{{ '/' | relative_url }}#platforms">platforms</a>
+        <a href="{{ '/' | relative_url }}#skills">skills</a>
+        <a href="{{ '/' | relative_url }}#projects">projects</a>
+        <a href="{{ '/' | relative_url }}#blog">blog</a>
+        <a href="{{ '/' | relative_url }}#hire">hire</a>
+      </nav>
+    </div>
+  </header>
+
+  {{ content }}
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>last login: <span class="primary" id="footer-time"></span> from pty/0</div>
+      <div class="footer-status">
+        <span class="status-dot"></span>
+        system status: online
+      </div>
+      <div class="muted" style="font-size:11px;">
+    visitors: <span class="primary">
+      <a href="https://acarsec.goatcounter.com" style="color:inherit">stats</a>
+    </span>
+  </div>
+    </div>
+  </footer>
+
+  <script src="{{ '/assets/js/main.js' | relative_url }}"></script>
+  <script data-goatcounter="https://acarsec.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>

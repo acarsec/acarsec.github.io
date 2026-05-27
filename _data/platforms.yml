@@ -1,0 +1,49 @@
+- name: HackerOne
+  handle: "@acarsec"
+  href: "https://hackerone.com/acarsec"
+  badge: H1
+
+- name: Bugcrowd
+  handle: "@acarsec"
+  href: "https://bugcrowd.com/h/acarsec"
+  badge: BC
+
+- name: Intigriti
+  handle: "@acarsec"
+  href: "https://app.intigriti.com/researcher/profile/acarsec"
+  badge: IN
+
+- name: YesWeHack
+  handle: "@acarsec"
+  href: "https://yeswehack.com/hunters/acarsec"
+  badge: YWH
+
+- name: Hack The Box
+  handle: "N/A"
+  href: "https://app.hackthebox.com/public/users/906971"
+  badge: HTB
+
+- name: TryHackMe
+  handle: "top 1%"
+  href: "https://tryhackme.com/p/acarsec"
+  badge: THM
+
+- name: LetsDefend
+  handle: "N/A"
+  href: "https://app.letsdefend.io/user/acarsec"
+  badge: LD
+
+- name: Pentester Lab
+  handle: "N/A"
+  href: "https://pentesterlab.com/profile/acarsec"
+  badge: PL
+
+- name: CyberDefenders
+  handle: "N/A"
+  href: "https://cyberdefenders.org/p/acarsec/"
+  badge: CD
+
+- name: picoCTF
+  handle: "@acarsec"
+  href: "https://learn.cylabacademy.org/users/acarsec"
+  badge: CTF

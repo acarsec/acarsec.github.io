@@ -1,0 +1,343 @@
+---
+layout: default
+title: 404
+permalink: /404.html
+---
+
+<style>
+/* ─── 404 Page ─────────────────────────────────────────────── */
+.page-404 {
+  position: relative;
+  z-index: 10;
+  min-height: calc(100dvh - 120px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 24px 40px;
+}
+
+.terminal-404 {
+  width: 100%;
+  max-width: 700px;
+}
+
+/* Terminal window chrome */
+.term-window {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow:
+    0 0 0 1px rgba(0,255,65,.08),
+    0 0 40px rgba(0,255,65,.06),
+    0 24px 64px rgba(0,0,0,.6);
+}
+
+.term-titlebar {
+  background: #0a0f0b;
+  border-bottom: 1px solid var(--border);
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.term-dots { display: flex; gap: 6px; }
+.term-dot {
+  width: 12px; height: 12px;
+  border-radius: 50%;
+}
+.dot-red   { background: #ff2a4d; opacity: .7; }
+.dot-yellow{ background: #ffb800; opacity: .7; }
+.dot-green { background: var(--primary); opacity: .7; }
+
+.term-title {
+  flex: 1;
+  text-align: center;
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: .05em;
+}
+
+.term-body {
+  background: var(--card);
+  padding: 28px 28px 32px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+/* Big glitchy 404 */
+.err-code {
+  font-size: clamp(56px, 12vw, 96px);
+  font-weight: 800;
+  color: var(--primary);
+  line-height: 1;
+  letter-spacing: -.02em;
+  text-shadow: 0 0 30px rgba(0,255,65,.4);
+  display: inline-block;
+  position: relative;
+  margin-bottom: 4px;
+  animation: glitch-big 4s infinite;
+}
+
+@keyframes glitch-big {
+  0%, 90%, 100% {
+    text-shadow: 0 0 30px rgba(0,255,65,.4);
+    transform: translate(0);
+    clip-path: none;
+  }
+  91% {
+    text-shadow: 3px 0 #ff2a4d, -3px 0 #00ffff, 0 0 30px rgba(0,255,65,.4);
+    transform: translate(-2px, 1px);
+  }
+  92% {
+    text-shadow: -3px 0 #ff2a4d, 3px 0 #00ffff, 0 0 30px rgba(0,255,65,.4);
+    transform: translate(2px, -1px);
+  }
+  93% {
+    text-shadow: 0 0 30px rgba(0,255,65,.4);
+    transform: translate(0);
+  }
+  95% {
+    text-shadow: 2px 0 #ff2a4d, -2px 0 #00ffff;
+    transform: translate(-1px, 0);
+  }
+  96% {
+    text-shadow: 0 0 30px rgba(0,255,65,.4);
+    transform: translate(0);
+  }
+}
+
+/* terminal lines */
+.t-line {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  color: var(--fg);
+  margin: 4px 0;
+}
+.t-prompt  { color: var(--primary); white-space: nowrap; flex-shrink: 0; }
+.t-comment { color: var(--muted); }
+.t-error   { color: var(--destructive); }
+.t-path    { color: #52f072; }
+
+.t-divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 18px 0;
+}
+
+/* progress / scanbar */
+.scan-line-wrap {
+  margin: 16px 0 8px;
+}
+.scan-label {
+  font-size: 11px;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+.scan-bar-bg {
+  background: var(--secondary);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  height: 6px;
+  overflow: hidden;
+}
+.scan-bar-fill {
+  height: 100%;
+  background: var(--primary);
+  width: 0%;
+  border-radius: 2px;
+  animation: scan-fill 2.2s ease-out 0.4s forwards;
+  box-shadow: 0 0 8px rgba(0,255,65,.5);
+}
+@keyframes scan-fill {
+  0%   { width: 0%; }
+  60%  { width: 72%; }
+  80%  { width: 80%; }
+  100% { width: 83%; }   /* stops mid-scan — resource not found */
+}
+.scan-result {
+  font-size: 11px;
+  color: var(--destructive);
+  margin-top: 6px;
+  opacity: 0;
+  animation: fade-in .3s ease 2.7s forwards;
+}
+@keyframes fade-in { to { opacity: 1; } }
+
+/* action buttons */
+.t-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 24px;
+}
+.btn-t {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 18px;
+  border-radius: 3px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  cursor: pointer;
+  transition: all .2s;
+  text-decoration: none;
+  border: 1px solid transparent;
+}
+.btn-t-primary {
+  background: var(--primary-dim);
+  border-color: var(--primary);
+  color: var(--primary);
+}
+.btn-t-primary:hover {
+  background: rgba(0,255,65,.25);
+  box-shadow: 0 0 16px rgba(0,255,65,.2);
+}
+.btn-t-secondary {
+  background: transparent;
+  border-color: var(--border);
+  color: var(--muted);
+}
+.btn-t-secondary:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+/* typing cursor in last line */
+.blink {
+  display: inline-block;
+  color: var(--primary);
+  animation: blink 1s step-end infinite;
+}
+
+/* fade-in for body sections */
+.fade-seq { opacity: 0; animation: fade-in .4s ease forwards; }
+.d1 { animation-delay: .1s; }
+.d2 { animation-delay: .5s; }
+.d3 { animation-delay: 1.0s; }
+.d4 { animation-delay: 2.8s; }
+
+/* mini hex dump decoration */
+.hex-dump {
+  font-size: 10px;
+  color: #1a3d1a;
+  line-height: 1.5;
+  margin-top: 18px;
+  overflow: hidden;
+  max-height: 48px;
+  user-select: none;
+  pointer-events: none;
+}
+</style>
+
+<main class="page-404">
+  <div class="terminal-404">
+
+    <div class="term-window">
+      <!-- Title bar -->
+      <div class="term-titlebar">
+        <div class="term-dots">
+          <div class="term-dot dot-red"></div>
+          <div class="term-dot dot-yellow"></div>
+          <div class="term-dot dot-green"></div>
+        </div>
+        <div class="term-title">bash — ebubekiracar@acarsec — 80×24</div>
+      </div>
+
+      
+      <div class="term-body">
+
+        
+        <div class="fade-seq d1">
+          <div class="t-line">
+            <span class="t-comment"># HTTP response intercepted</span>
+          </div>
+          <div style="margin: 12px 0 16px;">
+            <span class="err-code">404</span>
+          </div>
+          <div class="t-line">
+            <span class="t-prompt">[user@acarsec ~]$</span>
+            <span>curl -I <span class="t-path">{{ page.url }}</span></span>
+          </div>
+          <div class="t-line" style="padding-left: 16px;">
+            <span class="t-error">HTTP/1.1 404 Not Found</span>
+          </div>
+          <div class="t-line" style="padding-left: 16px; color: var(--muted); font-size:12px;">
+            Content-Type: text/html; charset=utf-8
+          </div>
+          <div class="t-line" style="padding-left: 16px; color: var(--muted); font-size:12px;">
+            X-Error: RESOURCE_NOT_FOUND
+          </div>
+        </div>
+
+        <hr class="t-divider fade-seq d2">
+
+        
+        <div class="fade-seq d2">
+          <div class="t-line">
+            <span class="t-prompt">[user@acarsec ~]$</span>
+            <span>find / -name "<span class="t-path">{{ page.url | remove: "/" }}</span>" 2>/dev/null</span>
+          </div>
+
+          <div class="scan-line-wrap">
+            <div class="scan-label">scanning filesystem...</div>
+            <div class="scan-bar-bg">
+              <div class="scan-bar-fill"></div>
+            </div>
+            <div class="scan-result">find: no results — target does not exist on this host</div>
+          </div>
+        </div>
+
+        <hr class="t-divider fade-seq d3">
+
+        
+        <div class="fade-seq d3">
+          <div class="t-line">
+            <span class="t-comment">/*</span>
+          </div>
+          <div class="t-line">
+            <span class="t-comment">&nbsp;* DIAGNOSIS: The page you're looking for has been</span>
+          </div>
+          <div class="t-line">
+            <span class="t-comment">&nbsp;* moved, deleted, or never existed.</span>
+          </div>
+          <div class="t-line">
+            <span class="t-comment">&nbsp;* No trace found in memory or on disk.</span>
+          </div>
+          <div class="t-line">
+            <span class="t-comment">&nbsp;*/</span>
+          </div>
+        </div>
+
+        
+        <div class="t-actions fade-seq d4">
+          <a href="/" class="btn-t btn-t-primary">
+            <span>~/</span> cd ~
+          </a>
+          <a href="/blog/" class="btn-t btn-t-secondary">
+            cat blog/
+          </a>
+          <a href="/projects/" class="btn-t btn-t-secondary">
+            ls projects/
+          </a>
+        </div>
+
+        
+        <div class="t-line fade-seq d4" style="margin-top: 20px;">
+          <span class="t-prompt">[user@acarsec ~]$</span>
+          <span class="blink">█</span>
+        </div>
+
+        
+        <div class="hex-dump" aria-hidden="true">
+0000 0000 4854 5450 2f31 2e31 2034 3034  ....HTTP/1.1 404
+0010 204e 6f74 2046 6f75 6e64 0d0a 436f   Not Found..Co
+0020 6e74 656e 742d 5479 7065 3a20 7465  ntent-Type: te
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</main>

@@ -1,0 +1,35 @@
+---
+layout: default
+---
+<main class="project-main">
+
+  <div class="project-subnav">
+    <a href="{{ '/' | relative_url }}" class="subnav-back">
+      <span class="arrow-left">&#8592;</span>
+      <span>&gt; cd ~/</span>
+    </a>
+    <div class="subnav-viewing muted">
+      &gt; viewing: <span class="primary">{{ page.title }}</span>
+    </div>
+  </div>
+
+  <div class="project-header fade-up">
+    <div class="project-meta-row">
+      {% if page.category %}<span class="project-type-tag">[{{ page.category }}]</span>{% endif %}
+    </div>
+    <h1 class="project-h1">{{ page.title }}</h1>
+    {% if page.description %}<p class="project-short-desc">{{ page.description }}</p>{% endif %}
+  </div>
+
+  <div class="desc-card post-body fade-up delay-1">
+    {{ content }}
+  </div>
+
+</main>
+
+<script>
+  (function() {
+    var pathEl = document.getElementById('current-path');
+    if (pathEl) pathEl.textContent = ' ~/{{ page.slug | default: page.title | downcase | replace: " ", "-" }}';
+  })();
+</script>
