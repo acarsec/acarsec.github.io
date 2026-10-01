@@ -1,112 +1,14 @@
 ---
-layout: default
+layout: profile
 ---
-<main class="project-main">
-
-  <div class="project-subnav">
-    <a href="{{ '/' | relative_url }}#blog" class="subnav-back">
-      <span class="arrow-left">&#8592;</span>
-      <span>&gt; cd /blog</span>
-    </a>
-    <div class="subnav-viewing muted">
-      &gt; viewing: <span class="primary">{{ page.title }}</span>
-    </div>
-  </div>
-
-  <div class="project-header fade-up">
-    <div class="project-meta-row">
-      <span class="project-type-tag">[{{ page.category | default: "blog" }}]</span>
-      <span class="post-date muted">{{ page.date | date: "%Y-%m-%d" }}</span>
-      {% assign words = content | number_of_words %}
-{% assign read_min = words | divided_by: 200 | plus: 1 %}
-<span class="post-read-time muted">~{{ read_min }} min read</span>
-    </div>
-    <h1 class="project-h1">{{ page.title }}</h1>
-    {% if page.excerpt_custom %}<p class="project-short-desc">{{ page.excerpt_custom }}</p>{% endif %}
-    {% if page.tags %}
-    <div class="tags">
-      {% for tag in page.tags %}
-<a href="{{ '/tags/' | relative_url }}#{{ tag | slugify }}" class="tag">{{ tag }}</a>
-{% endfor %}
-    </div>
-    {% endif %}
-  </div>
-
-  <div class="desc-card post-body fade-up delay-1">
-    {{ content }}
-  </div>
-
-  <div class="prev-next fade-up delay-2">
-    {% if page.previous %}
-      <a href="{{ page.previous.url | relative_url }}" class="prev-link">&#8592; {{ page.previous.title }}</a>
-    {% else %}
-      <span></span>
-    {% endif %}
-    {% if page.next %}
-      <a href="{{ page.next.url | relative_url }}" class="next-link">{{ page.next.title }} &#8594;</a>
-    {% else %}
-      <span></span>
-    {% endif %}
-  </div>
-<div class="desc-card fade-up" style="margin-top:32px;">
-  <p class="muted" style="font-size:11px; margin-bottom:16px;">// comments</p>
-  <script src="https://giscus.app/client.js"
-    data-repo="acarsec/acarsec.github.io"
-    data-repo-id="R_kgDOSZsZyQ"
-    data-category="Announcements"
-    data-category-id="DIC_kwDOSZsZyc4C833h"
-    data-mapping="pathname"
-    data-strict="0"
-    data-reactions-enabled="1"
-    data-emit-metadata="0"
-    data-input-position="bottom"
-    data-theme="dark"
-    data-lang="tr"
-    crossorigin="anonymous"
-    async>
-  </script>
-</div>
+<main id="main" class="wrap article-main">
+  <a class="text-link article-back" href="{{ '/blog/' | relative_url }}">← Back to all articles</a>
+  <header class="article-header"><div class="article-meta"><span>{{ page.category | default: 'blog' }}</span><time datetime="{{ page.date | date: '%Y-%m-%d' }}">{{ page.date | date: '%b %d, %Y' }}</time>{% assign words = content | number_of_words %}<span>{{ words | divided_by: 200 | plus: 1 }} min read</span></div><h1>{{ page.title }}</h1>{% if page.excerpt_custom %}<p class="intro">{{ page.excerpt_custom }}</p>{% endif %}<div class="article-author"><span class="author-avatar" aria-hidden="true">EA</span><span><strong>Ebu Bekir Acar</strong><span>Cybersecurity Analyst</span></span></div><div class="article-tags">{% for tag in page.tags %}<a href="{{ '/tags/' | relative_url }}#tag-{{ tag | slugify }}">{{ tag }}</a>{% endfor %}</div></header>
+  <article class="post-body">{{ content }}</article>
+  <nav class="article-pagination" aria-label="Other articles">{% if page.previous %}<a href="{{ page.previous.url | relative_url }}"><span class="small-label">← PREVIOUS ARTICLE</span><strong>{{ page.previous.title }}</strong></a>{% endif %}{% if page.next %}<a href="{{ page.next.url | relative_url }}"><span class="small-label">NEXT ARTICLE →</span><strong>{{ page.next.title }}</strong></a>{% endif %}</nav>
+  <section class="comments"><h2>Join the conversation.</h2><script src="https://giscus.app/client.js" data-repo="acarsec/acarsec.github.io" data-repo-id="R_kgDOSZsZyQ" data-category="Announcements" data-category-id="DIC_kwDOSZsZyc4C833h" data-mapping="pathname" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="bottom" data-theme="light" data-lang="tr" crossorigin="anonymous" async></script></section>
 </main>
-<div class="lightbox-overlay" id="lightbox">
-  <button class="lightbox-close" id="lightbox-close">[x]</button>
-  <img src="" id="lightbox-img" alt="">
-</div>
-
+<dialog class="image-viewer" id="image-viewer" aria-label="Article image"><button type="button" aria-label="Close image">Close ×</button><img alt=""></dialog>
 <script>
-  (function () {
-    var overlay  = document.getElementById('lightbox');
-    var lbImg    = document.getElementById('lightbox-img');
-    var closeBtn = document.getElementById('lightbox-close');
-
-    // Post içindeki tüm görsellere tıklama ekle
-    document.querySelectorAll('.post-body img').forEach(function (img) {
-      img.addEventListener('click', function () {
-        lbImg.src = this.src;
-        lbImg.alt = this.alt;
-        overlay.classList.add('active');
-      });
-    });
-
-    // Kapat: overlay veya [x] butonuna tıklama
-    overlay.addEventListener('click', function (e) {
-      if (e.target === overlay || e.target === closeBtn) {
-        overlay.classList.remove('active');
-        lbImg.src = '';
-      }
-    });
-
-    // Kapat: ESC tuşu
-    document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape') {
-        overlay.classList.remove('active');
-        lbImg.src = '';
-      }
-    });
-  })();
-</script>
-<script>
-  (function() {
-    var pathEl = document.getElementById('current-path');
-    if (pathEl) pathEl.textContent = ' ~/blog/{{ page.slug }}';
-  })();
+(function(){var dialog=document.getElementById('image-viewer'),large=dialog.querySelector('img');document.querySelectorAll('.post-body img').forEach(function(image){var button=document.createElement('button');button.type='button';button.className='image-zoom';button.setAttribute('aria-label','Enlarge image: '+(image.alt||'Article image'));image.parentNode.insertBefore(button,image);button.appendChild(image);button.addEventListener('click',function(){large.src=image.src;large.alt=image.alt;dialog.showModal()})});dialog.querySelector('button').addEventListener('click',function(){dialog.close()});dialog.addEventListener('click',function(event){if(event.target===dialog)dialog.close()})})();
 </script>
