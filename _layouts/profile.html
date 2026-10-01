@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% include seo.html %}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ '/assets/css/profile.css' | relative_url }}">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="header"><div class="wrap nav-row">
+    <a class="brand" href="{{ '/' | relative_url }}" aria-label="Ebu Bekir Acar home"><span class="brand-mark">ea.</span><span>Ebu Bekir Acar</span></a>
+    <nav aria-label="Main navigation"><a href="#about">About</a><a href="#services">Services</a><a href="#skills">Expertise</a><a href="#platforms">Platforms</a><a href="{{ '/blog/' | relative_url }}">Blog ↗</a></nav>
+    <a class="nav-contact" href="#hire">Let’s talk <span>↗</span></a>
+  </div></header>
+  {{ content }}
+  <footer class="wrap footer"><span>© {{ 'now' | date: '%Y' }} Ebu Bekir Acar</span><span>Cybersecurity, with clarity.</span><a href="{{ '/blog/' | relative_url }}">Read the blog ↗</a></footer>
+  <script data-goatcounter="https://acarsec.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
