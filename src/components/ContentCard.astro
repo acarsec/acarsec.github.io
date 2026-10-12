@@ -1,0 +1,7 @@
+---
+import type { IndexRecord } from '../lib/content';
+import ContentMeta from './ContentMeta.astro';
+import { categories, tagSlug } from '../data/taxonomy';
+const { record } = Astro.props as { record: IndexRecord };
+---
+<article class="content-card" data-record-id={record.id}><ContentMeta record={record}/><h2><a href={record.url}>{record.title}</a></h2><p>{record.description}</p><div class="card-categories">{record.categories.map(category => <a href={`/categories/${category}/`}>{categories[category as keyof typeof categories]}</a>)}</div><div class="card-bottom"><div class="card-tags">{record.tags.slice(0, 3).map(tag => <a href={`/tags/${tagSlug(tag)}/`}>{tag}</a>)}</div><a class="read-link" href={record.url} aria-label={`Read ${record.title}`}>Read <span aria-hidden="true">↗</span></a></div>{record.relatedUrl && <a class="related-link" href={record.relatedUrl}>Read the related write-up ↗</a>}</article>

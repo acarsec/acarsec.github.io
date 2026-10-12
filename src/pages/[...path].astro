@@ -1,0 +1,9 @@
+---
+import { render } from 'astro:content';
+import ArticleLayout from '../layouts/ArticleLayout.astro';
+import { publicContent, type Entry } from '../lib/content';
+export async function getStaticPaths() { const data = await publicContent(); return [...data.publications, ...data.labs, ...data.projects].map(entry => ({ params: { path: entry.data.permalink.slice(1, -1) }, props: { entry } })); }
+const { entry } = Astro.props as { entry: Entry };
+const { Content, headings } = await render(entry);
+---
+<ArticleLayout entry={entry} headings={headings}><Content/></ArticleLayout>

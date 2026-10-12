@@ -1,0 +1,8 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { categories } from '../../data/taxonomy';
+import { publicContent } from '../../lib/content';
+const data = await publicContent();
+const entries = [...data.publications,...data.labs];
+---
+<BaseLayout title="Categories"><main id="main" class="shell archive-main"><header class="page-heading"><p class="eyebrow">THE NOTEBOOK / SUBJECTS</p><h1>Browse by subject<span class="accent">.</span></h1><p class="lead">Topics connect publications and practice, independently of platforms or content types.</p></header><div class="taxonomy-grid">{Object.entries(categories).map(([id, label]) => <a href={`/categories/${id}/`}><span class="mono muted">{entries.filter(entry => entry.data.categories.includes(id as keyof typeof categories)).length} ENTRIES</span><h2>{label}</h2><span class="accent">↗</span></a>)}</div></main></BaseLayout>

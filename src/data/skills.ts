@@ -1,0 +1,34 @@
+export const skills = [
+  {
+    "title": "Recon & Enumeration",
+    "items": [
+      "Nmap",
+      "Burp Suite"
+    ]
+  },
+  {
+    "title": "Exploitation",
+    "items": [
+      "Metasploit",
+      "SQLmap"
+    ]
+  },
+  {
+    "title": "Reverse Engineering",
+    "items": [
+      "Ghidra",
+      "IDA Pro"
+    ]
+  },
+  {
+    "title": "Languages",
+    "items": [
+      "Python",
+      "Java",
+      "PHP",
+      "C",
+      "Bash / PowerShell",
+      "JavaScript"
+    ]
+  }
+];

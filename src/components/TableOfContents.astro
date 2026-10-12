@@ -1,0 +1,6 @@
+---
+import type { MarkdownHeading } from 'astro';
+const { headings } = Astro.props as { headings: MarkdownHeading[] };
+const items = headings.filter(heading => heading.depth === 2 || heading.depth === 3);
+---
+{items.length > 0 && <aside class="toc"><details open><summary class="mono">ON THIS PAGE</summary><nav aria-label="Table of contents"><ol>{items.map(heading => <li class:list={{ nested: heading.depth === 3 }}><a href={`#${heading.slug}`}>{heading.text}</a></li>)}</ol></nav></details></aside>}

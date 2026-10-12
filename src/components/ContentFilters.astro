@@ -1,0 +1,9 @@
+---
+import type { IndexRecord } from '../lib/content';
+import { categories, platforms, typeLabels, contentTypes } from '../data/taxonomy';
+const { records, scope } = Astro.props as { records: IndexRecord[]; scope: string };
+const unique = (values: (string | undefined)[]) => [...new Set(values.filter((v): v is string => !!v))].sort();
+const options = { type: scope === 'blog' ? [...contentTypes] : unique(records.map(r => r.type)), category: Object.keys(categories), platform: Object.keys(platforms), tag: unique(records.flatMap(r => r.tags)), difficulty: ['easy', 'medium', 'hard'], status: ['completed', 'in-progress'] };
+const label = (name: string, value: string): string => name === 'category' ? categories[value as keyof typeof categories] : name === 'platform' ? platforms[value as keyof typeof platforms] : name === 'type' ? typeLabels[value as keyof typeof typeLabels] : value.replaceAll('-', ' ');
+---
+<form class="content-filters" hidden role="search"><label class="search-label">Search<input type="search" name="q" placeholder="Search titles, concepts, tools…" autocomplete="off"/></label><div class="filter-row">{Object.entries(options).filter(([name]) => scope === 'labs' ? name !== 'type' : !['difficulty', 'status'].includes(name)).map(([name, values]) => <label>{name === 'type' ? 'Type' : name.charAt(0).toUpperCase() + name.slice(1)}<select name={name} aria-label={name.charAt(0).toUpperCase() + name.slice(1)}><option value="">All</option>{values.map(value => <option value={value}>{label(name, value)}</option>)}</select></label>)}<label>Sort<select name="sort" aria-label="Sort"><option value="newest">Newest first</option><option value="oldest">Oldest first</option></select></label><button type="reset" class="button ghost">Reset filters</button></div></form>

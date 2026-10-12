@@ -1,0 +1,11 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ContentIndex from '../../components/ContentIndex.astro';
+import { categories } from '../../data/taxonomy';
+import { publicContent, toRecord } from '../../lib/content';
+export function getStaticPaths() { return Object.entries(categories).map(([category,title]) => ({ params: {category}, props: {category,title} })); }
+const { category, title } = Astro.props;
+const data = await publicContent();
+const records = [...data.publications,...data.labs].map(toRecord).filter(record => record.categories.includes(category));
+---
+<BaseLayout title={title}><ContentIndex title={title} description={`Publications and practice in ${title.toLowerCase()}.`} records={records} scope="category" eyebrow="SUBJECT ARCHIVE"/></BaseLayout>

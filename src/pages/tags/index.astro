@@ -1,0 +1,8 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { publicContent, toRecord } from '../../lib/content';
+import { tagSlug, unicodeTagSlug } from '../../data/taxonomy';
+const data = await publicContent(); const records = [...data.publications,...data.labs,...data.projects].map(toRecord);
+const tags = [...new Set(records.flatMap(record => record.tags))].sort();
+---
+<BaseLayout title="Tags"><main id="main" class="shell archive-main"><header class="page-heading"><p class="eyebrow">THE NOTEBOOK / CONCEPTS</p><h1>Follow a thread<span class="accent">.</span></h1><p class="lead">Specific concepts, technologies, and ideas across the archive.</p></header><div class="tag-cloud">{tags.map(tag => <a href={`/tags/${tagSlug(tag)}/`}>{tag}<span>{records.filter(record => record.tags.includes(tag)).length}</span></a>)}</div>{tags.map(tag => <section class="topic-section" id={tagSlug(tag)}><span id={`tag-${tagSlug(tag)}`} class="fragment-target"></span>{unicodeTagSlug(tag) !== tagSlug(tag) && <><span id={unicodeTagSlug(tag)} class="fragment-target"></span><span id={`tag-${unicodeTagSlug(tag)}`} class="fragment-target"></span></>}<h2>{tag}</h2><a class="text-link" href={`/tags/${tagSlug(tag)}/`}>Open topic archive ↗</a><ul>{records.filter(record => record.tags.includes(tag)).map(record => <li><a href={record.url}>{record.title}</a></li>)}</ul></section>)}</main></BaseLayout>

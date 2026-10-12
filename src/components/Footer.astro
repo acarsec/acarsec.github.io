@@ -1,0 +1,5 @@
+---
+import { site } from '../data/site';
+import { social } from '../data/social';
+---
+<footer class="site-footer shell"><div class="footer-top"><div><a class="brand" href="/"><span class="brand-mark">ea.</span><span>{site.name}</span></a><p>Building a security mindset.<br/>Sharing the work along the way.</p></div><nav aria-label="Footer navigation"><a href="/projects/">Projects</a><a href="/categories/">Categories</a><a href="/tags/">Tags</a><a href="/feed.xml">RSS feed</a><a href="/#hire">Contact</a></nav><div class="footer-social">{social.map(item => <a href={item.href} target="_blank" rel="noopener noreferrer">{item.label} ↗</a>)}</div></div><div class="footer-bottom"><span>© {new Date().getUTCFullYear()} {site.name}</span><span class="mono">LEARN. INVESTIGATE. DOCUMENT.</span><a href={`mailto:${site.email}`}>{site.email}</a></div></footer>

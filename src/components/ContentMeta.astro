@@ -1,0 +1,7 @@
+---
+import type { IndexRecord } from '../lib/content';
+import { platforms, typeLabels } from '../data/taxonomy';
+import { formatDate } from '../lib/reading-time';
+const { record } = Astro.props as { record: IndexRecord };
+---
+<div class="content-meta"><span class="type-badge">{typeLabels[record.type as keyof typeof typeLabels]}</span><time datetime={record.publishedAt}>{formatDate(record.publishedAt)}</time><span>{record.minutes} min read</span>{record.platform && <span>{platforms[record.platform as keyof typeof platforms]}</span>}{['writeup', 'lab'].includes(record.type) && record.difficulty && <span>{record.difficulty}</span>}{['writeup', 'lab'].includes(record.type) && record.durationMinutes && <span>{record.durationMinutes} min practice</span>}{record.status && <span>{record.status.replaceAll('-', ' ')}</span>}</div>

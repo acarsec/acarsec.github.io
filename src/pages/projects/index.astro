@@ -1,0 +1,9 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ContentIndex from '../../components/ContentIndex.astro';
+import { publicContent, toRecord } from '../../lib/content';
+const data = await publicContent();
+const records = data.projects.map(toRecord);
+
+---
+<BaseLayout title="Projects" description="Code, automation, and home lab projects. Real work, documented when ready."><ContentIndex title="Tools & experiments" description="Code, automation, and home lab projects. Real work, documented when ready." records={records} scope="projects" eyebrow="PROJECTS / THE PRACTICE ARCHIVE"/></BaseLayout>

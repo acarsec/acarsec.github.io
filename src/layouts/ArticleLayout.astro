@@ -1,0 +1,28 @@
+---
+import type { MarkdownHeading } from 'astro';
+import BaseLayout from './BaseLayout.astro';
+import ContentMeta from '../components/ContentMeta.astro';
+import TableOfContents from '../components/TableOfContents.astro';
+import Giscus from '../components/Giscus.astro';
+import ContentCard from '../components/ContentCard.astro';
+import { type Entry, toRecord, publicContent } from '../lib/content';
+import { site } from '../data/site';
+import { categories, tagSlug } from '../data/taxonomy';
+import '../styles/content.css';
+interface Props { entry: Entry; headings: MarkdownHeading[]; }
+const { entry, headings } = Astro.props;
+const data = entry.data, record = toRecord(entry), all = await publicContent();
+const list: Entry[] = entry.collection === 'publications' ? all.publications : entry.collection === 'labs' ? all.labs : all.projects;
+const position = list.findIndex(item => item.data.permalink === data.permalink);
+const neighbors = [list[position + 1], list[position - 1]].filter((item): item is Entry => !!item);
+const relatedLab = 'relatedLabId' in data ? all.labs.find(lab => lab.data.labId === data.relatedLabId) : undefined;
+const relatedWriteup = 'relatedWriteupId' in data ? all.publications.find(pub => pub.data.contentId === data.relatedWriteupId) : undefined;
+const related = relatedLab || relatedWriteup;
+const archive = entry.collection === 'publications' ? '/blog/' : entry.collection === 'labs' ? '/labs/' : '/projects/';
+const archiveLabel = entry.collection === 'publications' ? 'Blog' : entry.collection === 'labs' ? 'Labs' : 'Projects';
+const canonical = new URL(data.permalink, site.url).href;
+const image = 'image' in data ? data.image : undefined;
+const structured = [{ '@context': 'https://schema.org', '@type': 'Article', headline: data.title, description: data.description, datePublished: data.publishedAt, ...('updatedAt' in data && data.updatedAt ? { dateModified: data.updatedAt } : {}), author: { '@type': 'Person', name: site.name, url: `${site.url}/about/` }, inLanguage: data.lang, mainEntityOfPage: canonical, ...(image ? { image: new URL(image, site.url).href } : {}) }, { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Home', item: site.url + '/' }, { '@type': 'ListItem', position: 2, name: archiveLabel, item: site.url + archive }, { '@type': 'ListItem', position: 3, name: data.title, item: canonical }] }];
+---
+<BaseLayout title={data.title} description={data.description} lang={data.lang} image={image} structured={structured}><main id="main" class="shell article-main"><nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><a href={archive}>{archiveLabel}</a><span aria-hidden="true">/</span><span aria-current="page">{data.title}</span></nav><header class="article-heading"><ContentMeta record={record}/><h1>{data.title}</h1><p class="lead">{data.description}</p><div class="article-byline"><span class="avatar">ea.</span><span>{site.name}<small>Cybersecurity Analyst</small></span></div><div class="article-taxonomy">{record.categories.map(category => <a href={`/categories/${category}/`}>{categories[category as keyof typeof categories]}</a>)}{data.tags.map(tag => <a href={`/tags/${tagSlug(tag)}/`}>#{tag}</a>)}</div>{data.tools.length > 0 && <p class="tool-list"><span class="mono">TOOLS</span> {data.tools.join(' · ')}</p>}{'challengeUrl' in data && data.challengeUrl && <a class="text-link" href={data.challengeUrl} rel="noopener noreferrer" target="_blank">View the challenge ↗</a>}{'repoUrl' in data && data.repoUrl && <a class="button ghost" href={data.repoUrl} target="_blank" rel="noopener noreferrer">Source code ↗</a>}{'demoUrl' in data && data.demoUrl && <a class="button ghost" href={data.demoUrl} target="_blank" rel="noopener noreferrer">View demo ↗</a>}{'severity' in data && data.severity && <p>Severity: {data.severity}</p>}{'cveId' in data && data.cveId && <p>{data.cveId}</p>}</header><div class="article-grid"><div class="article-content"><article class="prose"><slot/></article>{'mitreAttack' in data && data.mitreAttack.length > 0 && <section class="evidence-section"><h2>MITRE ATT&CK</h2><ul>{data.mitreAttack.map(id => <li><a href={`https://attack.mitre.org/techniques/${id.replace('.', '/')}/`} target="_blank" rel="noopener noreferrer">{id} ↗</a></li>)}</ul></section>}{'iocs' in data && data.iocs.length > 0 && <section class="evidence-section"><h2>Indicators of compromise</h2><div class="table-scroll"><table><thead><tr><th>Type</th><th>Value</th><th>Context</th></tr></thead><tbody>{data.iocs.map(ioc => <tr><td>{ioc.type}</td><td><code>{ioc.value}</code></td><td>{ioc.context}</td></tr>)}</tbody></table></div></section>}{related && <section class="related-section"><h2>Connected work</h2><ContentCard record={toRecord(related)}/></section>}<nav class="article-neighbors" aria-label="Previous and next entries">{neighbors.map(item => <a href={item.data.permalink}><span class="mono muted">{item.data.publishedAt < data.publishedAt ? '← PREVIOUS' : 'NEXT →'}</span><strong>{item.data.title}</strong></a>)}</nav>{'comments' in data && data.comments && <Giscus lang={data.lang}/>}</div><TableOfContents headings={headings}/></div></main><dialog class="lightbox" aria-label="Expanded article image"><button type="button" aria-label="Close image">Close ×</button><img alt=""/><p class="lightbox-caption"></p></dialog><p class="sr-only copy-status" aria-live="polite"></p></BaseLayout>
+<script>import '../scripts/article';</script>

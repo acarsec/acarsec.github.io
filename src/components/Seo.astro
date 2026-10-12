@@ -1,0 +1,11 @@
+---
+import { site } from '../data/site';
+import { safeJson } from '../lib/urls';
+interface Props { title: string; description?: string; image?: string; noindex?: boolean; structured?: unknown[]; }
+const { title, description = site.description, image, noindex = false, structured = [] } = Astro.props;
+const canonical = new URL(noindex && Astro.url.pathname === '/404/' ? '/404.html' : Astro.url.pathname, site.url).href;
+---
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>{title} — {site.name}</title><meta name="description" content={description}/><meta name="author" content={site.name}/><meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow'}/><link rel="canonical" href={canonical}/><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"/><link rel="alternate" type="application/rss+xml" title="acarsec publications" href="/feed.xml"/>
+<meta property="og:title" content={`${title} — ${site.name}`}/><meta property="og:description" content={description}/><meta property="og:url" content={canonical}/><meta property="og:site_name" content={site.name}/><meta property="og:type" content={structured.length ? 'article' : 'website'}/><meta name="twitter:card" content={image ? 'summary_large_image' : 'summary'}/><meta name="twitter:site" content="@theacarhq"/><meta name="twitter:title" content={title}/><meta name="twitter:description" content={description}/>{image && <><meta property="og:image" content={new URL(image, site.url).href}/><meta name="twitter:image" content={new URL(image, site.url).href}/></>}
+{structured.map(data => <script type="application/ld+json" set:html={safeJson(data)}/>)}

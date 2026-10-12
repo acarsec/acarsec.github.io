@@ -1,0 +1,9 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ContentIndex from '../../components/ContentIndex.astro';
+import { publicContent, toRecord } from '../../lib/content';
+const data = await publicContent();
+const records = data.publications.filter(entry => entry.data.contentType === "note").map(toRecord);
+
+---
+<BaseLayout title="Notes" description="Concepts explained, commands collected, and lessons worth keeping."><ContentIndex title="Notes & fundamentals" description="Concepts explained, commands collected, and lessons worth keeping." records={records} scope="blog" /></BaseLayout>

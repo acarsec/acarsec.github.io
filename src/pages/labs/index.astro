@@ -1,0 +1,9 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ContentIndex from '../../components/ContentIndex.astro';
+import { publicContent, toRecord } from '../../lib/content';
+const data = await publicContent();
+const records = data.labs.map(toRecord);
+records.forEach(record => { const lab = data.labs.find(entry => entry.data.labId === record.id); const pub = data.publications.find(entry => entry.data.contentId === lab?.data.relatedWriteupId); if(pub) record.relatedUrl = pub.data.permalink; });
+---
+<BaseLayout title="Labs" description="Short records of hands-on work: objectives, methods, findings, and lessons learned."><ContentIndex title="Practice, documented" description="Short records of hands-on work: objectives, methods, findings, and lessons learned." records={records} scope="labs" eyebrow="LABS / THE PRACTICE ARCHIVE"/></BaseLayout>

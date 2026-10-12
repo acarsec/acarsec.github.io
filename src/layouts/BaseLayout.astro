@@ -1,0 +1,10 @@
+---
+import Seo from '../components/Seo.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/tokens.css';
+import '../styles/global.css';
+interface Props { title: string; description?: string; lang?: 'en' | 'tr'; image?: string; noindex?: boolean; structured?: unknown[]; }
+const { lang = 'en', ...seo } = Astro.props;
+---
+<!doctype html><html lang={lang}><head><Seo {...seo}/></head><body><a class="skip-link" href="#main">Skip to content</a><Header/><slot/><Footer/><script is:inline>if(location.hostname==='acarsec.github.io'){const script=document.createElement('script');script.dataset.goatcounter='https://acarsec.goatcounter.com/count';script.src='https://gc.zgo.at/count.js';script.async=true;document.body.appendChild(script)}</script></body></html>

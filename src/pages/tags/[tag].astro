@@ -1,0 +1,9 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ContentIndex from '../../components/ContentIndex.astro';
+import { publicContent, toRecord } from '../../lib/content';
+import { tagSlug } from '../../data/taxonomy';
+export async function getStaticPaths() { const data = await publicContent(); const records = [...data.publications,...data.labs,...data.projects].map(toRecord); return [...new Set(records.flatMap(record => record.tags))].map(tag => ({ params: { tag: tagSlug(tag) }, props: { title:tag, records: records.filter(record => record.tags.includes(tag)) } })); }
+const {title, records} = Astro.props;
+---
+<BaseLayout title={title}><ContentIndex title={title} description={`Follow ${title} across publications, labs, and projects.`} records={records} scope="tag" eyebrow="CONCEPT ARCHIVE"/></BaseLayout>
